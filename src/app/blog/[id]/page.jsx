@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation'
 
 async function getData(id) {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, { cache: "no-store" });
+  const res = await fetch(`http://localhost:3000/api/posts/${id}`, { cache: "no-store" });
   if (!res.ok) {
     return notFound();
   }
@@ -12,6 +12,13 @@ async function getData(id) {
   return res.json();
 }
 
+export async function generateMetadata({ params }) {
+  const post = await getData(params.id);
+  return {
+    title: post.title,
+    description: post.description,
+  }
+}
 
 const BlogPost = async ({ params }) => {
 
@@ -23,7 +30,7 @@ const BlogPost = async ({ params }) => {
         <div className={styles.info}>
           <h1 className={styles.title}>{data.title}</h1>
           <p className={styles.desc}>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto tempore placeat natus repellendus atque molestias eligendi velit molestiae omnis cum, dolores eveniet asperiores dolor suscipit. Consequatur illo ex recusandae ut.
+            {data.description}
           </p>
           <div className={styles.author}>
             <Image
@@ -33,12 +40,12 @@ const BlogPost = async ({ params }) => {
               height={40}
               className={styles.avatar}
             />
-            <span className={styles.username}>totherik</span>
+            <span className={styles.username}>{data.username}</span>
           </div>
         </div>
         <div className={styles.imageContainer}>
           <Image
-            src="https://images.pexels.com/photos/17130141/pexels-photo-17130141/free-photo-of-ut-hajnal-tajkep-strand.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            src={data.img}
             alt=""
             fill={true}
             className={styles.image}
@@ -47,16 +54,7 @@ const BlogPost = async ({ params }) => {
       </div>
       <div className={styles.content}>
         <p className={styles.text}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium excepturi magnam labore velit, nesciunt illum illo, ut autem vero optio dolores exercitationem deleniti laborum. Deserunt nobis numquam voluptate impedit harum.
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium excepturi magnam labore velit, nesciunt illum illo, ut autem vero optio dolores exercitationem deleniti laborum. Deserunt nobis numquam voluptate impedit harum.
-          <br />
-          <br />
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium excepturi magnam labore velit, nesciunt illum illo, ut autem vero optio dolores exercitationem deleniti laborum. Deserunt nobis numquam voluptate impedit harum.
-          <br />
-          <br />
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium excepturi magnam labore velit, nesciunt illum illo, ut autem vero optio dolores exercitationem deleniti laborum. Deserunt nobis numquam voluptate impedit harum.
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium excepturi magnam labore velit, nesciunt illum illo, ut autem vero optio dolores exercitationem deleniti laborum. Deserunt nobis numquam voluptate impedit harum.
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium excepturi magnam labore velit, nesciunt illum illo, ut autem vero optio dolores exercitationem deleniti laborum. Deserunt nobis numquam voluptate impedit harum.
+          {data.content}
         </p>
       </div>
     </div>
