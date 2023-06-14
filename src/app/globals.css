@@ -15,11 +15,11 @@ a {
   color: inherit;
 }
 
-.theme {
+.theme{
   transition: 1s all ease;
 }
 
-.ligth {
+.light {
   background-color: white;
   color: #111;
 }
